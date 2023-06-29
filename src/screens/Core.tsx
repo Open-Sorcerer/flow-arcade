@@ -15,6 +15,7 @@ import { useState } from "react";
 import { CompositeSignature } from "@onflow/typedefs";
 import getFoo from "../../cadence/scripts/get-foo.cdc";
 import setFoo from "../../cadence/transactions/set-foo.cdc";
+import GameScreen from "./GameScreen";
 
 export default function Core() {
   // Hook to obtain information about the current user
@@ -190,7 +191,8 @@ export default function Core() {
         </View>
 
         <View style={{ gap: 10, marginTop: 10 }}>
-          {commands.map((command) => (
+          <GameScreen />
+          {/* {commands.map((command) => (
             <TouchableOpacity
               key={command.name}
               onPress={command.onPress}
@@ -198,7 +200,7 @@ export default function Core() {
             >
               <Text style={{ fontSize: 16 }}>{command.name}</Text>
             </TouchableOpacity>
-          ))}
+          ))} */}
         </View>
       </ScrollView>
       <Modal
