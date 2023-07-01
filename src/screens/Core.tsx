@@ -15,6 +15,11 @@ import { useState } from "react";
 import { CompositeSignature } from "@onflow/typedefs";
 import getFoo from "../../cadence/scripts/get-foo.cdc";
 import setFoo from "../../cadence/transactions/set-foo.cdc";
+<<<<<<< Updated upstream
+=======
+import CoinDash from "./CoinDash";
+import DegenCoinFlip from "./DegenCoinFlip";
+>>>>>>> Stashed changes
 
 export default function Core() {
   // Hook to obtain information about the current user
@@ -190,7 +195,13 @@ export default function Core() {
         </View>
 
         <View style={{ gap: 10, marginTop: 10 }}>
+<<<<<<< Updated upstream
           {commands.map((command) => (
+=======
+          <CoinDash />
+          {/* <DegenCoinFlip /> */}
+          {/* {commands.map((command) => (
+>>>>>>> Stashed changes
             <TouchableOpacity
               key={command.name}
               onPress={command.onPress}
