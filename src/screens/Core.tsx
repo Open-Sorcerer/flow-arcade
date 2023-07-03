@@ -15,8 +15,10 @@ import { useState } from "react";
 import { CompositeSignature } from "@onflow/typedefs";
 import getFoo from "../../cadence/scripts/get-foo.cdc";
 import setFoo from "../../cadence/transactions/set-foo.cdc";
+import CoinDash from "./CoinDash";
+import DegenCoinFlip from "./DegenCoinFlip";
 
-export default function Core() {
+export default function Core({ navigation }) {
   // Hook to obtain information about the current user
   const user = useCurrentUser();
   // Determines whether modal for transaction arguments is visible
@@ -26,6 +28,13 @@ export default function Core() {
 
   // Commands to be displayed in the UI
   const commands = [
+    {
+      name: "Play kewl games",
+      onPress: () => {
+        // Navigate to the Collection screen
+        navigation.navigate("Collection");
+      }
+    },
     {
       name: "Execute Transaction",
       onPress: () => setModalVisible(true),
@@ -190,6 +199,8 @@ export default function Core() {
         </View>
 
         <View style={{ gap: 10, marginTop: 10 }}>
+          {/* <CoinDash /> */}
+          {/* <DegenCoinFlip /> */}
           {commands.map((command) => (
             <TouchableOpacity
               key={command.name}
