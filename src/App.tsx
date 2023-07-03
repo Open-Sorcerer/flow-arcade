@@ -7,6 +7,7 @@ import CoinDash from "./screens/CoinDash";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DegenCoinFlip from "./screens/DegenCoinFlip";
+import Spline from "./screens/Spline";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
                 <Stack.Screen name="Collection" component={Collection} />
                 <Stack.Screen name="CoinDash" component={CoinDash} />
                 <Stack.Screen name="DegenCoinFlip" component={DegenCoinFlip} />
+                <Stack.Screen name="Spline" component={Spline} />
               </>
             ) : (
               <Stack.Screen name="Auth" component={Auth} />

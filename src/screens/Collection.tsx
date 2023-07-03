@@ -15,7 +15,10 @@ const CollectionScreen = ({ navigation }) => {
       icon: '🕹️',
       onPress: () => navigation.navigate('CoinDash'),
     },
-    { id: 3, title: 'Game 3', icon: '🎯' },
+    { id: 3, 
+      title: 'Spline', 
+      icon: '🎯',
+      onPress: () => navigation.navigate('Spline'), },
     // Add more games as needed
   ];
 
