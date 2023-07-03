@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 interface Coin {
   id: number;
@@ -19,7 +20,8 @@ const CoinDash: React.FC = () => {
   const [score, setScore] = useState(0);
   const [time, setTime] = useState(30);
   const [gameOver, setGameOver] = useState(false);
-
+  // Hook to obtain information about the current user
+  const user = useCurrentUser();
   useEffect(() => {
     if (time > 0 && !gameOver) {
       // Timer logic
@@ -122,43 +124,83 @@ const CoinDash: React.FC = () => {
   }, [coins]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.timer}>{time}</Text>
-      <Text style={styles.score}>Score: {score}</Text>
-      {coins.map((coin) => (
-        <TouchableOpacity
-          key={coin.id}
-          style={[
-            styles.coin,
-            { left: coin.position.x, top: coin.position.y },
-          ]}
-          onPress={() => handleCoinPress(coin.id)}
+    <>
+      <ScrollView style={styles.scrollView}>
+        <View
+          style={{
+            padding: 15,
+            borderRadius: 10,
+            backgroundColor: "white",
+            marginBottom: 10,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+          }}
         >
-          <Image source={coinImage} style={styles.coinImage} />
-        </TouchableOpacity>
-      ))}
-      {gameOver && (
-        <View style={styles.overlay}>
-          <Text style={styles.gameOverText}>Game Over!</Text>
-          <Text style={styles.highScoreText}>High Score: {score}</Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handlePlayAgain}>
-              <Text style={styles.buttonText}>Play Again</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleMintNFT}>
-              <Text style={styles.buttonText}>Mint NFT</Text>
-            </TouchableOpacity>
+          <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: "bold" }}>
+            Your Account
+          </Text>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={{ fontSize: 14 }}>Address</Text>
+            <Text style={{ fontSize: 14 }}>
+              {user?.address ?? "Loading..."}
+            </Text>
           </View>
-          <ConfettiCannon
-            count={200}
-            origin={{ x: -10, y: 0 }}
-            explosionSpeed={300}
-            fallSpeed={3000}
-            colors={['#ff00ff', '#00ffff', '#ffff00']}
-          />
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={{ fontSize: 14 }}>Balance</Text>
+            <Text style={{ fontSize: 14 }}>
+              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
+            </Text>
+          </View>
         </View>
-      )}
-    </View>
+        <View style={styles.container}>
+          <Text style={styles.timer}>{time}</Text>
+          <Text style={styles.score}>Score: {score}</Text>
+          {coins.map((coin) => (
+            <TouchableOpacity
+              key={coin.id}
+              style={[
+                styles.coin,
+                { left: coin.position.x, top: coin.position.y },
+              ]}
+              onPress={() => handleCoinPress(coin.id)}
+            >
+              <Image source={coinImage} style={styles.coinImage} />
+            </TouchableOpacity>
+          ))}
+          {gameOver && (
+            <View style={styles.overlay}>
+              <Text style={styles.gameOverText}>Game Over!</Text>
+              <Text style={styles.highScoreText}>High Score: {score}</Text>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={handlePlayAgain}>
+                  <Text style={styles.buttonText}>Play Again</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={handleMintNFT}>
+                  <Text style={styles.buttonText}>Mint NFT</Text>
+                </TouchableOpacity>
+              </View>
+              <ConfettiCannon
+                count={200}
+                origin={{ x: -10, y: 0 }}
+                explosionSpeed={300}
+                fallSpeed={3000}
+                colors={['#ff00ff', '#00ffff', '#ffff00']}
+              />
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </>
   );
 };
 

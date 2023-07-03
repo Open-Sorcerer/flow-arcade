@@ -50,6 +50,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  scrollView: {
+    padding: 20,
+    flex: 1,
+    flexDirection: "column",
+  },
 });
 
 export default CollectionScreen;
