@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Animated, Easing, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 
 const coinFlipAnimationGif = require('./../../assets/game-assets/coin_flip_animation.gif');
 const headsImage = require('./../../assets/game-assets/buff_doge.png');
@@ -20,6 +20,56 @@ const DegenCoinFlipScreen: React.FC = () => {
       }, 2000);
     }
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#2D2C35',
+    },
+    coinContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    coinGif: {
+      width: 200,
+      height: 200,
+    },
+    coinImage: {
+      width: 200,
+      height: 200,
+    },
+    buttonContainer: {
+      marginTop: 20,
+    },
+    buttonRow: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 10,
+    },
+    button: {
+      flex: 1,
+      backgroundColor: '#1A1D1F',
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      marginHorizontal: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderColor: '#999',
+      elevation: 5,
+      minWidth: 80,
+    },
+    buttonText: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: 'white',
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -67,52 +117,5 @@ const DegenCoinFlipScreen: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  coinContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  coinGif: {
-    width: 200,
-    height: 200,
-  },
-  coinImage: {
-    width: 200,
-    height: 200,
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  button: {
-    flex: 1,
-    backgroundColor: '#ddd',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#999',
-    elevation: 5,
-    minWidth: 80,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default DegenCoinFlipScreen;

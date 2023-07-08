@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 const CollectionScreen = ({ navigation }) => {
   const games = [
@@ -19,42 +19,50 @@ const CollectionScreen = ({ navigation }) => {
     // Add more games as needed
   ];
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+      backgroundColor: '#2D2C35',
+    },
+    gameItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 20,
+      borderRadius: 10,
+      backgroundColor: '#1A1D1F',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      padding: 10,
+    },
+    gameIcon: {
+      fontSize: 30,
+      marginRight: 10,
+      color: 'white',
+    },
+    gameTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: 'white',
+    },
+  });
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       {games.map((game) => (
         <TouchableOpacity key={game.id} style={styles.gameItem} onPress={game.onPress}>
           <Text style={styles.gameIcon}>{game.icon}</Text>
           <Text style={styles.gameTitle}>{game.title}</Text>
         </TouchableOpacity>
       ))}
-    </View>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  gameItem: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  gameIcon: {
-    fontSize: 40,
-  },
-  gameTitle: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  scrollView: {
-    padding: 20,
-    flex: 1,
-    flexDirection: "column",
-  },
-});
 
 export default CollectionScreen;

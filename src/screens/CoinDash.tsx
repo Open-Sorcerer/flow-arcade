@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image, ScrollView } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface Coin {
   id: number;
@@ -22,6 +23,7 @@ const CoinDash: React.FC = () => {
   const [gameOver, setGameOver] = useState(false);
   // Hook to obtain information about the current user
   const user = useCurrentUser();
+
   useEffect(() => {
     if (time > 0 && !gameOver) {
       // Timer logic
@@ -123,6 +125,73 @@ const CoinDash: React.FC = () => {
     });
   }, [coins]);
 
+  const styles = StyleSheet.create({
+    scrollView: {
+      padding: 20,
+      flex: 1,
+      flexDirection: "column",
+      backgroundColor: "#2D2C35",
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    timer: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 16,
+      color: 'white',
+    },
+    score: {
+      fontSize: 18,
+      marginBottom: 16,
+      color: 'white',
+    },
+    coin: {
+      position: 'absolute',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    coinImage: {
+      width: 50,
+      height: 50,
+    },
+    overlay: {
+      ...StyleSheet.absoluteFillObject,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    },
+    gameOverText: {
+      fontSize: 30,
+      color: 'white',
+      fontWeight: 'bold',
+      marginBottom: 16,
+    },
+    highScoreText: {
+      fontSize: 24,
+      color: 'white',
+      marginBottom: 16,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      marginTop: 16,
+    },
+    button: {
+      marginHorizontal: 8,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      backgroundColor: '#1C1C1B',
+      borderRadius: 4,
+    },
+    buttonText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: 'white',
+    },
+  });
+
   return (
     <>
       <ScrollView style={styles.scrollView}>
@@ -130,7 +199,7 @@ const CoinDash: React.FC = () => {
           style={{
             padding: 15,
             borderRadius: 10,
-            backgroundColor: "white",
+            backgroundColor: "#1C1C1B",
             marginBottom: 10,
             shadowColor: "#000",
             shadowOffset: {
@@ -142,22 +211,22 @@ const CoinDash: React.FC = () => {
             elevation: 5,
           }}
         >
-          <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: "bold" }}>
+          <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: "bold", color: "white" }}>
             Your Account
           </Text>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 14 }}>Address</Text>
-            <Text style={{ fontSize: 14 }}>
+            <Text style={{ fontSize: 14, color: "#01EE8B" }}>Address</Text>
+            <Text style={{ fontSize: 14, color: "white" }}>
               {user?.address ?? "Loading..."}
             </Text>
           </View>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 14 }}>Balance</Text>
-            <Text style={{ fontSize: 14 }}>
+            <Text style={{ fontSize: 14, color: "#01EE8B" }}>Balance</Text>
+            <Text style={{ fontSize: 14, color: "white" }}>
               {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
             </Text>
           </View>

@@ -1,23 +1,18 @@
+import * as fcl from "@onflow/fcl/dist/fcl-react-native";
+import { useState } from "react";
 import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  View,
+  Modal,
   Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
   TextInput,
-  Modal,
-  Alert,
+  TouchableOpacity,
+  View
 } from "react-native";
-import * as fcl from "@onflow/fcl/dist/fcl-react-native";
-import { useCurrentUser } from "../hooks/useCurrentUser";
-import { useState } from "react";
-import { CompositeSignature } from "@onflow/typedefs";
-import getFoo from "../../cadence/scripts/get-foo.cdc";
 import setFoo from "../../cadence/transactions/set-foo.cdc";
-import CoinDash from "./CoinDash";
-import DegenCoinFlip from "./DegenCoinFlip";
-
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import Ionicons from '@expo/vector-icons/Ionicons';
 export default function Core({ navigation }) {
   // Hook to obtain information about the current user
   const user = useCurrentUser();
@@ -30,6 +25,7 @@ export default function Core({ navigation }) {
   const commands = [
     {
       name: "Play kewl games",
+      icon: "game-controller-outline",
       onPress: () => {
         // Navigate to the Collection screen
         navigation.navigate("Collection");
@@ -81,6 +77,7 @@ export default function Core({ navigation }) {
     // },
     {
       name: "Log Out",
+      icon: "exit-outline",
       onPress: () => fcl.unauthenticate(),
     },
   ];
@@ -110,8 +107,8 @@ export default function Core({ navigation }) {
       elevation: 5,
     },
     text: {
-      fontSize: 16,
-      fontWeight: "bold",
+      fontSize: 20,
+      fontWeight: "500",
       color: "white",
     },
     centeredView: {
@@ -172,7 +169,7 @@ export default function Core({ navigation }) {
         width: 0,
         height: 5,
       },
-      shadowOpacity: 0.75,
+      shadowOpacity: 0.85,
       shadowRadius: 10,
       elevation: 5,
     },
@@ -184,7 +181,7 @@ export default function Core({ navigation }) {
       <ScrollView style={styles.scrollView}>
         <View
           style={{
-            padding: 15,
+            padding: 25,
             borderRadius: 10,
             marginBottom: 10,
             backgroundColor: "#1C1C1B",
@@ -198,22 +195,22 @@ export default function Core({ navigation }) {
             elevation: 5,
           }}
         >
-          <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: "bold", color: "white" }}>
+          <Text style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold", color: "white" }}>
             Your Account
           </Text>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{ flexDirection: "row", marginBottom: 3, justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 14, color: "white" }}>Address</Text>
-            <Text style={{ fontSize: 14, color: "white" }}>
+            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Address</Text>
+            <Text style={{ fontSize: 18, color: "white" }}>
               {user?.address ?? "Loading..."}
             </Text>
           </View>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 14, color: "white" }}>Balance</Text>
-            <Text style={{ fontSize: 14, color: "white" }}>
+            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Balance</Text>
+            <Text style={{ fontSize: 18, color: "white" }}>
               {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
             </Text>
           </View>
@@ -227,7 +224,7 @@ export default function Core({ navigation }) {
               style={styles.button}
             >
               <View style={styles.buttonIconContainer}>
-                <Text style={styles.text}>A</Text>
+                <Ionicons name={command.icon} size={36} color="#01EE8B" />
               </View>
               <Text style={styles.text}>{command.name}</Text>
             </TouchableOpacity>
