@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Animated, Easing } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Animated, Easing, Text } from 'react-native';
 
 const headsImage = require('./../../assets/game-assets/buff_doge.png');
 const tailsImage = require('./../../assets/game-assets/weak_cheems.png');
@@ -33,6 +33,7 @@ const DegenCoinFlipScreen: React.FC = () => {
         }),
       ]).start(() => {
         setIsFlipping(false);
+        setCurrentImage(tailsImage);
       });
     }
   };
@@ -53,6 +54,19 @@ const DegenCoinFlipScreen: React.FC = () => {
           <Image source={currentImage} style={[styles.coinImage, { width: 200 }]} />
         </Animated.View>
       </TouchableOpacity>
+
+      {/* Buttons */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Button 1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Button 2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Button 3</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -73,6 +87,30 @@ const styles = StyleSheet.create({
   coinImage: {
     width: '100%',
     aspectRatio: 1,
+  },
+  buttonContainer: {
+    width: '80%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#ddd',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#999',
+    elevation: 5,
+    width: '100%',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
