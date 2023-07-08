@@ -15,9 +15,16 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <View style={{ backgroundColor: "#f0f0f0", flex: 1 }}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack.Navigator>
+      <View style={{ backgroundColor: "#2D2C35", flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#2D2C35" }}>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#1A1D1F",  // Add your desired background color here
+              },
+              headerTintColor: "white",  // Set the text color of the header
+            }}
+          >
             {isLoggedIn ? (
               <>
                 <Stack.Screen name="Core" component={Core} />

@@ -35,50 +35,50 @@ export default function Core({ navigation }) {
         navigation.navigate("Collection");
       }
     },
-    {
-      name: "Execute Transaction",
-      onPress: () => setModalVisible(true),
-    },
-    {
-      name: "Execute Script",
-      onPress: () => {
-        fcl
-          .query({
-            cadence: getFoo,
-          })
-          .then((res) => {
-            Alert.alert("Script executed", `The value of foo is: ${res}`);
-          });
-      },
-    },
-    {
-      name: "Sign User Message",
-      onPress: () => {
-        fcl.currentUser
-          .signUserMessage("12345678")
-          .then((signatures: CompositeSignature[]) => {
-            Alert.alert(
-              "User Signature Success",
-              signatures
-                .map(
-                  (sig) =>
-                    `addr: ${sig.addr}, keyId: ${sig.keyId}, message: 0x12345678\n\n${sig.signature}`
-                )
-                .join("\n\n")
-            );
-          })
-          .catch((err) => {
-            Alert.alert("User Signature Failed");
-          });
-      },
-    },
-    {
-      name: "Get Latest Block",
-      onPress: () =>
-        fcl
-          .block()
-          .then((block) => Alert.alert("Block", JSON.stringify(block))),
-    },
+    // {
+    //   name: "Execute Transaction",
+    //   onPress: () => setModalVisible(true),
+    // },
+    // {
+    //   name: "Execute Script",
+    //   onPress: () => {
+    //     fcl
+    //       .query({
+    //         cadence: getFoo,
+    //       })
+    //       .then((res) => {
+    //         Alert.alert("Script executed", `The value of foo is: ${res}`);
+    //       });
+    //   },
+    // },
+    // {
+    //   name: "Sign User Message",
+    //   onPress: () => {
+    //     fcl.currentUser
+    //       .signUserMessage("12345678")
+    //       .then((signatures: CompositeSignature[]) => {
+    //         Alert.alert(
+    //           "User Signature Success",
+    //           signatures
+    //             .map(
+    //               (sig) =>
+    //                 `addr: ${sig.addr}, keyId: ${sig.keyId}, message: 0x12345678\n\n${sig.signature}`
+    //             )
+    //             .join("\n\n")
+    //         );
+    //       })
+    //       .catch((err) => {
+    //         Alert.alert("User Signature Failed");
+    //       });
+    //   },
+    // },
+    // {
+    //   name: "Get Latest Block",
+    //   onPress: () =>
+    //     fcl
+    //       .block()
+    //       .then((block) => Alert.alert("Block", JSON.stringify(block))),
+    // },
     {
       name: "Log Out",
       onPress: () => fcl.unauthenticate(),
@@ -90,27 +90,29 @@ export default function Core({ navigation }) {
       padding: 20,
       flex: 1,
       flexDirection: "column",
+      backgroundColor: "#2D2C35",
     },
     button: {
       width: "100%",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "center",
-      padding: 15,
+      justifyContent: "flex-start", // Add this line
+      padding: 10,
       borderRadius: 10,
-      backgroundColor: "white",
-      shadowColor: "#000",
+      backgroundColor: "#1C1C1B",
+      shadowColor: "black",
       shadowOffset: {
         width: 0,
-        height: 2,
+        height: 5,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
+      shadowOpacity: 0.75,
+      shadowRadius: 10,
       elevation: 5,
     },
     text: {
       fontSize: 16,
       fontWeight: "bold",
+      color: "white",
     },
     centeredView: {
       flex: 1,
@@ -155,8 +157,27 @@ export default function Core({ navigation }) {
       marginBottom: 15,
       textAlign: "center",
       fontWeight: "bold",
+      color: "white",
+    },
+    buttonIconContainer: {
+      width: 80,
+      height: 80,
+      borderRadius: 100,
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: 20,
+      backgroundColor: "#1C1C1B",
+      shadowColor: "black",
+      shadowOffset: {
+        width: 0,
+        height: 5,
+      },
+      shadowOpacity: 0.75,
+      shadowRadius: 10,
+      elevation: 5,
     },
   });
+
 
   return (
     <>
@@ -165,49 +186,50 @@ export default function Core({ navigation }) {
           style={{
             padding: 15,
             borderRadius: 10,
-            backgroundColor: "white",
             marginBottom: 10,
-            shadowColor: "#000",
+            backgroundColor: "#1C1C1B",
+            shadowColor: "black",
             shadowOffset: {
               width: 0,
-              height: 2,
+              height: 5,
             },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
+            shadowOpacity: 0.75,
+            shadowRadius: 10,
             elevation: 5,
           }}
         >
-          <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: "bold" }}>
+          <Text style={{ fontSize: 20, marginBottom: 10, fontWeight: "bold", color: "white" }}>
             Your Account
           </Text>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 14 }}>Address</Text>
-            <Text style={{ fontSize: 14 }}>
+            <Text style={{ fontSize: 14, color: "white" }}>Address</Text>
+            <Text style={{ fontSize: 14, color: "white" }}>
               {user?.address ?? "Loading..."}
             </Text>
           </View>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontSize: 14 }}>Balance</Text>
-            <Text style={{ fontSize: 14 }}>
+            <Text style={{ fontSize: 14, color: "white" }}>Balance</Text>
+            <Text style={{ fontSize: 14, color: "white" }}>
               {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
             </Text>
           </View>
         </View>
 
-        <View style={{ gap: 10, marginTop: 10 }}>
-          {/* <CoinDash /> */}
-          {/* <DegenCoinFlip /> */}
+        <View style={{ gap: 15, marginTop: 10 }}>
           {commands.map((command) => (
             <TouchableOpacity
               key={command.name}
               onPress={command.onPress}
               style={styles.button}
             >
-              <Text style={{ fontSize: 16 }}>{command.name}</Text>
+              <View style={styles.buttonIconContainer}>
+                <Text style={styles.text}>A</Text>
+              </View>
+              <Text style={styles.text}>{command.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
