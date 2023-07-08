@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/entry.ts",
   "scripts": {
-    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"flow dev-wallet\" --raw --kill-others",
+    "dev": "concurrently \"cross-env FLOW_NETWORK=local expo start --clear\" \"wait-on tcp:8888 && flow dev\" \"flow emulator\" \"flow dev-wallet\" --raw --kill-others",
     "dev:testnet": "cross-env FLOW_NETWORK=testnet expo start",
     "dev:mainnet": "cross-env FLOW_NETWORK=mainnet expo start"
   },
@@ -11,12 +11,12 @@
     "@expo/webpack-config": "^18.0.1",
     "@onflow/fcl": "^1.5.0-alpha.1",
     "@react-native-async-storage/async-storage": "1.17.11",
+    "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@types/react": "~18.0.27",
     "expo": "~48.0.18",
     "expo-constants": "~14.2.1",
     "expo-web-browser": "~12.1.1",
-    "lottie-react-native": "5.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.71.8",

@@ -1,8 +1,8 @@
 {
 	"contracts": {
-		"HelloWorld": "cadence\\contracts\\HelloWorld.cdc",
-		"NFTMinter": "cadence\\contracts\\NFTMinter.cdc",
-		"degenCoinFlip": "cadence\\contracts\\degenCoinFlip.cdc"
+		"HelloWorld": "cadence/contracts/HelloWorld.cdc",
+		"NFTMinter": "cadence/contracts/NFTMinter.cdc",
+		"degenCoinFlip": "cadence/contracts/degenCoinFlip.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
