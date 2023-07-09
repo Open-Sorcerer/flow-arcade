@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Coin {
   id: number;
@@ -18,8 +19,10 @@ const initialCoinSpawnInterval = 1000; // Initial interval between coin spawns i
 const CoinDash: React.FC = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
   const [time, setTime] = useState(5);
   const [gameOver, setGameOver] = useState(false);
+
   // Hook to obtain information about the current user
   const user = useCurrentUser();
 
@@ -39,14 +42,27 @@ const CoinDash: React.FC = () => {
   }, [time, gameOver]);
 
   useEffect(() => {
+    const getHighScore = async () => {
+      try {
+        const storedHighScore = await AsyncStorage.getItem('highScore');
+        if (storedHighScore) {
+          setHighScore(parseInt(storedHighScore));
+        }
+      } catch (error) {
+        console.log('Error getting high score from cache:', error);
+      }
+    };
+
+    getHighScore();
+  }, []);
+
+  useEffect(() => {
     if (gameOver) {
-      // Confetti animation logic
-      setTimeout(() => {
+      // Cleanup function
+      return () => {
         setCoins([]);
-        setScore(0);
-        setTime(30);
-      }, 5000); // Reset the game after 5 seconds
-    }
+      }
+    };
   }, [gameOver]);
 
   useEffect(() => {
@@ -85,11 +101,27 @@ const CoinDash: React.FC = () => {
   };
 
   const handlePlayAgain = () => {
+    if (score > highScore) {
+      setHighScore(score);
+      try {
+        AsyncStorage.setItem('highScore', score.toString());
+      } catch (error) {
+        console.log('Error setting high score in cache:', error);
+      }
+    }
     setGameOver(false);
-    setCoins([]);
+    setCoins([]); // Clear the coins state
     setScore(0);
     setTime(30);
+  
+    // Clear timers for each coin
+    coins.forEach((coin) => {
+      if (coin.timer) {
+        clearTimeout(coin.timer);
+      }
+    });
   };
+
 
   const handleMintNFT = () => {
     // Implement mint NFT logic
@@ -97,32 +129,31 @@ const CoinDash: React.FC = () => {
   };
 
   useEffect(() => {
-    // Timer for tracking the time limit to click each coin
-    coins.forEach((coin) => {
-      // Skip if the coin already has a timer
-      if (coin.timer) return;
-
+  // Timer for tracking the time limit to click each coin
+  const coinTimers = coins.map((coin) => {
+    if (!coin.timer) {
       const coinTimer = setTimeout(() => {
         setCoins((prevCoins) =>
-          prevCoins.filter((prevCoin) => {
-            if (prevCoin.id === coin.id) {
-              clearTimeout(prevCoin.timer!);
-            }
-            return prevCoin.id !== coin.id;
-          })
+          prevCoins.filter((prevCoin) => prevCoin.id !== coin.id)
         );
       }, 3000); // Time limit to click the coin in milliseconds
 
-      setCoins((prevCoins) =>
-        prevCoins.map((prevCoin) => {
-          if (prevCoin.id === coin.id) {
-            return { ...prevCoin, timer: coinTimer };
-          }
-          return prevCoin;
-        })
-      );
+      return { id: coin.id, timer: coinTimer };
+    }
+
+    return coin;
+  });
+
+  // Clear timers when game is reset
+  return () => {
+    coinTimers.forEach((coin) => {
+      if (coin.timer) {
+        clearTimeout(coin.timer);
+      }
     });
-  }, [coins]);
+  };
+}, []); // Remove dependency on coins state
+
 
   const styles = StyleSheet.create({
     scrollView: {
@@ -233,7 +264,8 @@ const CoinDash: React.FC = () => {
         {gameOver ? (
           <View style={styles.overlay}>
             <Text style={styles.gameOverText}>Game Over!</Text>
-            <Text style={styles.highScoreText}>High Score: {score}</Text>
+            <Text style={styles.highScoreText}>Score: {score}</Text>
+            <Text style={styles.highScoreText}>High Score: {highScore}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={handlePlayAgain}>
                 <Text style={styles.buttonText}>Play Again</Text>
