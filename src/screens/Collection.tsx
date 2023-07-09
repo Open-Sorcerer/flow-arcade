@@ -1,21 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 const CollectionScreen = ({ navigation }) => {
+  const user = useCurrentUser();
   const games = [
     {
       id: 1,
       title: 'Doge n CoinFlip',
-      icon: '🎮',
+      subtitle: 'Playful & parody twist on the popular staking game: Degen CoinFlip',
+      icon: require('./../../assets/game-assets/flow_doge.png'),
       onPress: () => navigation.navigate('DegenCoinFlip'),
     },
     {
       id: 2,
       title: 'Coin Dash',
-      icon: '🕹️',
+      subtitle: 'Test your reflexes and gather coins before the timer runs out!',
+      icon: require('./../../assets/game-assets/coin_stack.png'),
       onPress: () => navigation.navigate('CoinDash'),
     },
-    { id: 3, title: 'Game 3', icon: '🎯' },
+    {
+      id: 3,
+      title: 'More...',
+      subtitle: 'More games to be added soon',
+      icon: require('./../../assets/game-assets/coin.png'),
+    },
     // Add more games as needed
   ];
 
@@ -24,44 +34,120 @@ const CollectionScreen = ({ navigation }) => {
       flex: 1,
       padding: 20,
       backgroundColor: '#2D2C35',
+      gap: 20,
     },
     gameItem: {
+      width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 20,
+      justifyContent: 'flex-start',
+      padding: 12,
       borderRadius: 10,
-      backgroundColor: '#1A1D1F',
-      shadowColor: '#000',
+      backgroundColor: '#1C1C1B',
+      shadowColor: 'black',
       shadowOffset: {
         width: 0,
-        height: 2,
+        height: 5,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
+      shadowOpacity: 0.75,
+      shadowRadius: 10,
       elevation: 5,
-      padding: 10,
+    },
+    gameIconContainer: {
+      width: 80,
+      height: 80,
+      borderRadius: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 10,
+      backgroundColor: '#1C1C1B',
+      shadowColor: 'black',
+      shadowOffset: {
+        width: 0,
+        height: 5,
+      },
+      shadowOpacity: 0.85,
+      shadowRadius: 10,
+      elevation: 5,
     },
     gameIcon: {
-      fontSize: 30,
+      width: 50,
+      height: 50,
       marginRight: 10,
-      color: 'white',
+      borderRadius: 30,
+      margin: 'auto',
     },
     gameTitle: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
+      color: 'white',
+      marginBottom: 3,
+    },
+    gameSubtitleWrapper: {
+      flex: 1,
+      width: '100%',
+    },
+    gameSubtitle: {
+      fontSize: 14,
+      lineHeight: 20,
       color: 'white',
     },
   });
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {games.map((game) => (
-        <TouchableOpacity key={game.id} style={styles.gameItem} onPress={game.onPress}>
-          <Text style={styles.gameIcon}>{game.icon}</Text>
-          <Text style={styles.gameTitle}>{game.title}</Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <>
+      <ScrollView contentContainerStyle={styles.container}>
+      <View
+          style={{
+            padding: 25,
+            borderRadius: 10,
+            marginBottom: 25,
+            backgroundColor: "#1C1C1B",
+            shadowColor: "black",
+            shadowOffset: {
+              width: 0,
+              height: 5,
+            },
+            shadowOpacity: 0.75,
+            shadowRadius: 10,
+            elevation: 5,
+          }}
+        >
+          <Text style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold", color: "white" }}>
+            Your Account
+          </Text>
+          <View
+            style={{ flexDirection: "row", marginBottom: 3, justifyContent: "space-between" }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Address</Text>
+            <Text style={{ fontSize: 18, color: "white" }}>
+              {user?.address ?? "Loading..."}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Balance</Text>
+            <Text style={{ fontSize: 18, color: "white" }}>
+              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
+            </Text>
+          </View>
+        </View>
+        {games.map((game) => (
+          <TouchableOpacity key={game.id} style={styles.gameItem} onPress={game.onPress}>
+            <View style={styles.gameIconContainer}>
+              <Image source={game.icon} style={styles.gameIcon} />
+            </View>
+            <View style={styles.gameSubtitleWrapper}>
+              <Text style={styles.gameTitle}>{game.title}</Text>
+              <Text style={styles.gameSubtitle} numberOfLines={2}>
+                {game.subtitle}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </>
   );
 };
 

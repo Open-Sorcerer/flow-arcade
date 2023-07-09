@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import setFoo from "../../cadence/transactions/set-foo.cdc";
+// import setFoo from "../../cadence/transactions/set-foo.cdc";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import Ionicons from '@expo/vector-icons/Ionicons';
 export default function Core({ navigation }) {
@@ -183,8 +183,8 @@ export default function Core({ navigation }) {
           style={{
             padding: 25,
             borderRadius: 10,
-            marginBottom: 10,
             backgroundColor: "#1C1C1B",
+            marginBottom: 25,
             shadowColor: "black",
             shadowOffset: {
               width: 0,
@@ -228,7 +228,7 @@ export default function Core({ navigation }) {
               </View>
               <Text style={styles.text}>{command.name}</Text>
             </TouchableOpacity>
-          ))}
+          ))} 
         </View>
       </ScrollView>
       <Modal

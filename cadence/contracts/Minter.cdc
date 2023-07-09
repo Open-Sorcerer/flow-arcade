@@ -84,7 +84,7 @@ pub contract Minter: NonFungibleToken {
 
       // Add the new token to the dictionary, this removes the old one
       let oldToken <- self.ownedNFTs[id] <- token
-      
+       
       // Trigger an event to let listeners know an NFT was deposited to this collection
       emit Deposit(id: id, to: self.owner?.address)
       
