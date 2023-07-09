@@ -51,6 +51,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       height: 200,
     },
     buttonContainer: {
+      width: '100%',
       marginTop: 20,
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -63,7 +64,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       width: "100%",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "flex-start", // Add this line
+      justifyContent: "center",
       padding: 10,
       borderRadius: 10,
       backgroundColor: "#1C1C1B",
@@ -77,7 +78,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       elevation: 5,
     },
     buttonText: {
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: 'bold',
       color: 'white',
     },
@@ -134,10 +135,10 @@ const DegenCoinFlipScreen: React.FC = () => {
           {/* Buttons */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={() => handleCoinFlip('heads')} disabled={isFlipping}>
-              <Text style={styles.buttonText}>Heads</Text>
+              <Text style={styles.buttonText}>HEADS</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => handleCoinFlip('tails')} disabled={isFlipping}>
-              <Text style={styles.buttonText}>Tails</Text>
+              <Text style={styles.buttonText}>TAILS</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>

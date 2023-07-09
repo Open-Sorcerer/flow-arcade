@@ -93,7 +93,7 @@ export default function Core({ navigation }) {
       width: "100%",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "flex-start", // Add this line
+      justifyContent: "flex-start",
       padding: 10,
       borderRadius: 10,
       backgroundColor: "#1C1C1B",
