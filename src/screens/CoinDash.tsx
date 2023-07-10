@@ -20,7 +20,7 @@ const CoinDash: React.FC = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(30);
   const [gameOver, setGameOver] = useState(false);
 
   // Hook to obtain information about the current user
