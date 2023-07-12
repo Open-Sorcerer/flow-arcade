@@ -1,16 +1,16 @@
-// need to figure out 
 import MetadataViews from 0x631e88ae7f1d7c20;
-import Minter from 0x2d3a367effe10e71; 
 
-pub fun main(address: Address): [UInt64] {
+pub fun main(address: Address): PublicAccount {
     
   let account = getAccount(address)
 
-  let collection = account
-    .getCapability(/public/MinterCollection)
-    .borrow<&{MetadataViews.ResolverCollection}>()
-    ?? panic("Could not borrow a reference to the collection")
 
-  let IDs = collection.getIDs()
-  return IDs;
+  // let collection = account
+  //   .getCapability(/storage/MinterCollection)
+  //   .borrow<&{MetadataViews.ResolverCollection}>()
+  //   ?? panic("Could not borrow a reference to the collection")
+
+  // let IDs = collection.getIDs()
+  // return IDs;
+  return account;
 }
