@@ -16,6 +16,8 @@ if (!flowNetwork) {
 
 const FLOW_CONFIG = {
   // This is the base configuration for FCL shared across all environments
+  "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
+
   base: {
     "app.detail.title": "FCL React Native Scaffold",
     "app.detail.icon": "https://avatars.githubusercontent.com/u/62387156?v=4",
@@ -31,6 +33,7 @@ const FLOW_CONFIG = {
   },
   testnet: {
     "accessNode.api": "https://access-testnet.onflow.org",
+    "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
     "discovery.authn.endpoint":
       "https://fcl-discovery.onflow.org/api/testnet/authn",
     "flow.network": "testnet",
