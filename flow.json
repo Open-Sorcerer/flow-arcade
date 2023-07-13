@@ -2,7 +2,9 @@
   "contracts": {
     "HelloWorld": "cadence/contracts/HelloWorld.cdc",
     "degenCoinFlip": "cadence/contracts/degenCoinFlip.cdc",
-    "NFTMinter": "cadence/contracts/NFTMinter.cdc"
+    "NFTMinter": "cadence/contracts/NFTMinter.cdc",
+    "FungibleToken": "cadence/contracts/FungibleToken.cdc",
+    "DegenCoinFlip": "cadence/contracts/DegenCoinFlip.cdc"
   },
   "networks": {
     "emulator": "127.0.0.1:3569",
