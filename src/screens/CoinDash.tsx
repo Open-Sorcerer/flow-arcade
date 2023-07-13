@@ -13,6 +13,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 import mintNFT from "../cadence-integration/mintNFT";
 import getTotalSupply from "../cadence-integration/getTotalSupply";
+import axios from "axios"; // Import axios for making API requests
+import {UNSPLASH_API_KEY} from '@env';
+
 interface Coin {
   id: number;
   position: {
@@ -29,8 +32,9 @@ const CoinDash: React.FC = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(30);
   const [gameOver, setGameOver] = useState(false);
+  const [scoreImage, setScoreImage] = useState(""); // Store the high score image URI
 
   // Hook to obtain information about the current user
   const user = useCurrentUser();
@@ -142,8 +146,26 @@ const CoinDash: React.FC = () => {
       console.log(err);
     }
   };
+  const searchScoreImage = async () => {
+    try {
+      // Make a GET request to the Unsplash API to search for high score images
+      const response = await axios.get(
+        `https://api.unsplash.com/search/photos?query=${score}&client_id=${UNSPLASH_API_KEY}`
+      );
 
+      if (response.data.results.length > 0) {
+        const images = response.data.results;
+        const randomIndex = Math.floor(Math.random() * images.length);
+        const imageUri = images[randomIndex].urls.regular;
+        setScoreImage(imageUri);
+        console.log("Score image URI:", imageUri);
+      }
+    } catch (error) {
+      console.log("Error searching for high score image:", error);
+    }
+  };
   const handleMintNFT = async () => {
+    await searchScoreImage();
     try {
       console.log("Minting NFT");
       console.log(user?.address);
@@ -152,12 +174,9 @@ const CoinDash: React.FC = () => {
         cadence: `${mintNFT}`,
         args: (arg, t) => [
           arg("0x" + user?.address, t.Address),
-          arg("Name of the NFT", t.String),
-          arg("Description of the NFT", t.String),
-          arg(
-            "https://ipfs.moralis.io:2053/ipfs/QmXTn6AQuGrUm9SpE9xAa9vg3suxLsuWYNRxHnoB8Ndhhc",
-            t.String
-          ),
+          arg(`Name of the NFT: DashToken${score}`, t.String),
+          arg(`Description of the NFT: You scored ${score}. ${highScore>score?"Better luck next time!":"You beat the previous high score! Keep Grinding!"}`, t.String),
+          arg(scoreImage, t.String), // Pass the high score image URI to the mint NFT function
         ],
         limit: 99,
       });

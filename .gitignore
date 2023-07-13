@@ -20,3 +20,4 @@ package-lock.json
 yarn.lock
 .vscode
 harsh.pkey
+.env
