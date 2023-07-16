@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
@@ -35,7 +36,7 @@ const CoinDash: React.FC = () => {
   const [highScore, setHighScore] = useState(0);
   const [time, setTime] = useState(30);
   const [gameOver, setGameOver] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [scoreImage, setScoreImage] = useState(""); // Store the high score image URI
 
   useEffect(() => {
@@ -153,6 +154,7 @@ const CoinDash: React.FC = () => {
     }
   };
   const handleMintNFT = async () => {
+    setLoading(true);
     await searchScoreImage();
     try {
       console.log("Minting NFT");
@@ -176,6 +178,7 @@ const CoinDash: React.FC = () => {
         limit: 99,
       });
       console.log("Transaction sent to the network:", transactionId);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -288,7 +291,13 @@ const CoinDash: React.FC = () => {
                 <Text style={styles.buttonText}>Play Again</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleMintNFT}>
-                <Text style={styles.buttonText}>Mint NFT</Text>
+              { !loading ?
+              <Text style={styles.buttonText}>
+                Mint NFT
+              </Text>
+              :
+              <ActivityIndicator size="large" color="#0000ff" />
+              }
               </TouchableOpacity>
             </View>
             <ConfettiCannon
