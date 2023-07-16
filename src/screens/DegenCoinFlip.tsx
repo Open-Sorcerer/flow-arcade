@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Text,
-  ScrollView,
-} from "react-native";
-import { useCurrentUser } from "../hooks/useCurrentUser";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import axios from "axios";
-import UserInfo from "../components/UserInfo";
-import ConfettiCannon from "react-native-confetti-cannon";
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
+import axios from "axios";
+import { useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import ConfettiCannon from "react-native-confetti-cannon";
 import mintNFT from "../cadence-integration/mintNFT";
+import UserInfo from "../components/UserInfo";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 const coinFlipAnimationGif = require("./../../assets/game-assets/coin_flip_animation.gif");
 const headsImage = require("./../../assets/game-assets/buff_doge.png");
@@ -26,6 +26,7 @@ const DegenCoinFlipScreen: React.FC = () => {
   const [selected, setSelected] = useState("");
   const [confetti, setConfetti] = useState(false);
   const [scoreImage, setScoreImage] = useState("");
+  const [loading, setLoading] = useState(false);
   // Hook to obtain information about the current user
   const user = useCurrentUser();
   const handleCoinFlip = (coin: string) => {
@@ -70,6 +71,7 @@ const DegenCoinFlipScreen: React.FC = () => {
   };
 
   const handleMintNFT = async () => {
+    setLoading(true);
     await searchScoreImage();
     try {
       console.log("Minting NFT");
@@ -86,6 +88,7 @@ const DegenCoinFlipScreen: React.FC = () => {
         limit: 99,
       });
       console.log("Transaction sent to the network:", transactionId);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -225,9 +228,13 @@ const DegenCoinFlipScreen: React.FC = () => {
               disabled={!wins}
               onPress={handleMintNFT}
             >
+              { !loading ?
               <Text style={[styles.buttonText, { fontSize: 18 }]}>
                 Mint this streak ⛈️
               </Text>
+              :
+              <ActivityIndicator size="large" color="#0000ff" />
+              }
             </TouchableOpacity>
           </View>
         </View>
