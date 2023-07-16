@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image, Text, ScrollView } from 'rea
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import UserInfo from '../components/UserInfo';
+import ConfettiCannon from "react-native-confetti-cannon";
 
 const coinFlipAnimationGif = require('./../../assets/game-assets/coin_flip_animation.gif');
 const headsImage = require('./../../assets/game-assets/buff_doge.png');
@@ -11,17 +12,30 @@ const tailsImage = require('./../../assets/game-assets/weak_cheems.png');
 const DegenCoinFlipScreen: React.FC = () => {
   const [isFlipping, setIsFlipping] = useState(false);
   const [currentImage, setCurrentImage] = useState(headsImage);
+  const [wins, setWins] = useState(0);
+  const [selected, setSelected] = useState('');
+  const [confetti, setConfetti] = useState(false);
   // Hook to obtain information about the current user
   const user = useCurrentUser();
-  const handleCoinFlip = (side: string) => {
+  const handleCoinFlip = (coin: string) => {
+    setSelected(coin);
+    const side = Math.random() < 0.5 ? 'heads' : 'tails';
     if (!isFlipping) {
       setIsFlipping(true);
-      setCurrentImage(headsImage);
-
       setTimeout(() => {
         setCurrentImage(side === 'heads' ? headsImage : tailsImage);
         setIsFlipping(false);
-      }, 2000);
+        setSelected('');
+        if (coin === side) {
+          setWins(wins + 1);
+          setConfetti(true);
+        } else {
+          setWins(0);
+        }
+        setTimeout(() => {
+          setConfetti(false);
+        }, 3000);
+      }, 3000);
     }
   };
 
@@ -54,8 +68,10 @@ const DegenCoinFlipScreen: React.FC = () => {
     buttonContainer: {
       width: '100%',
       marginTop: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      flex: 1,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
     },
     button: {
       flex: 1,
@@ -68,7 +84,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       justifyContent: "center",
       padding: 10,
       borderRadius: 10,
-      backgroundColor: "#1C1C1B",
+      backgroundColor: '#1C1C1B',
       shadowColor: "black",
       shadowOffset: {
         width: 0,
@@ -83,6 +99,12 @@ const DegenCoinFlipScreen: React.FC = () => {
       fontWeight: 'bold',
       color: 'white',
     },
+    counterText: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      color: 'white',
+      alignSelf: 'center',
+    },
   });
 
   return (
@@ -90,7 +112,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       <ScrollView style={styles.scrollView}>
         <UserInfo />
         <View style={styles.container}>
-          <TouchableOpacity style={styles.coinContainer} onPress={handleCoinFlip} disabled={isFlipping}>
+          <TouchableOpacity style={styles.coinContainer} disabled={isFlipping}>
             {isFlipping ? (
               <Image source={coinFlipAnimationGif} style={styles.coinGif} />
             ) : (
@@ -100,36 +122,42 @@ const DegenCoinFlipScreen: React.FC = () => {
 
           {/* Buttons */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => handleCoinFlip('heads')} disabled={isFlipping}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                { backgroundColor: selected === 'heads' ? '#01EE8B' : isFlipping ? 'gray' : '#1C1C1B' }
+              ]}
+              onPress={() => handleCoinFlip('heads')}
+              disabled={isFlipping}>
               <Text style={styles.buttonText}>HEADS</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => handleCoinFlip('tails')} disabled={isFlipping}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                { backgroundColor: selected === 'tails' ? '#01EE8B' : isFlipping ? 'gray' : '#1C1C1B' }
+              ]}
+              onPress={() => handleCoinFlip('tails')} disabled={isFlipping}>
               <Text style={styles.buttonText}>TAILS</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>0.05 FLOW</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>0.10 FLOW</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>0.25 FLOW</Text>
-            </TouchableOpacity>
+            <Text style={styles.counterText}>Win Streak: &nbsp;
+              <Text style={{ color: wins===0?'red':'#01EE8B', fontSize: 32 }}>{wins}</Text>
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>0.50 FLOW</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>1.00 FLOW</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>2.00 FLOW</Text>
+            <TouchableOpacity style={[styles.button, {backgroundColor:!wins&&'gray'}]} disabled={!wins}>
+              <Text style={[styles.buttonText, {fontSize: 18}]}>Mint NFT ⛈️</Text>
             </TouchableOpacity>
           </View>
         </View>
+        {confetti && <ConfettiCannon
+          count={200}
+          origin={{ x: -10, y: 0 }}
+          explosionSpeed={300}
+          fallSpeed={3000}
+          colors={["#ff00ff", "#00ffff", "#ffff00"]}
+        />}
       </ScrollView>
     </>
   );
