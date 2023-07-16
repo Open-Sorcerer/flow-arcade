@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text, ScrollView } from 'react-native';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import UserInfo from '../components/UserInfo';
 
 const coinFlipAnimationGif = require('./../../assets/game-assets/coin_flip_animation.gif');
 const headsImage = require('./../../assets/game-assets/buff_doge.png');
@@ -87,42 +88,7 @@ const DegenCoinFlipScreen: React.FC = () => {
   return (
     <>
       <ScrollView style={styles.scrollView}>
-      <View
-          style={{
-            padding: 25,
-            borderRadius: 10,
-            marginBottom: 25,
-            backgroundColor: "#1C1C1B",
-            shadowColor: "black",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.75,
-            shadowRadius: 10,
-            elevation: 5,
-          }}
-        >
-          <Text style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold", color: "white" }}>
-            Your Account
-          </Text>
-          <View
-            style={{ flexDirection: "row", marginBottom: 3, justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Address</Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user?.address ?? "Loading..."}
-            </Text>
-          </View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Balance</Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
-            </Text>
-          </View>
-        </View>
+        <UserInfo />
         <View style={styles.container}>
           <TouchableOpacity style={styles.coinContainer} onPress={handleCoinFlip} disabled={isFlipping}>
             {isFlipping ? (

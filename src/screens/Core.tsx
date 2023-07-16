@@ -13,6 +13,8 @@ import {
 // import setFoo from "../../cadence/transactions/set-foo.cdc";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import SupplyFooter from "../components/SupplyFooter";
+import UserInfo from "../components/UserInfo";
 export default function Core({ navigation }) {
   // Hook to obtain information about the current user
   const user = useCurrentUser();
@@ -179,42 +181,7 @@ export default function Core({ navigation }) {
   return (
     <>
       <ScrollView style={styles.scrollView}>
-        <View
-          style={{
-            padding: 25,
-            borderRadius: 10,
-            backgroundColor: "#1C1C1B",
-            marginBottom: 25,
-            shadowColor: "black",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.75,
-            shadowRadius: 10,
-            elevation: 5,
-          }}
-        >
-          <Text style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold", color: "white" }}>
-            Your Account
-          </Text>
-          <View
-            style={{ flexDirection: "row", marginBottom: 3, justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Address</Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user?.address ?? "Loading..."}
-            </Text>
-          </View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Balance</Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
-            </Text>
-          </View>
-        </View>
+        <UserInfo />
 
         <View style={{ gap: 15, marginTop: 10 }}>
           {commands.map((command) => (
@@ -228,8 +195,9 @@ export default function Core({ navigation }) {
               </View>
               <Text style={styles.text}>{command.name}</Text>
             </TouchableOpacity>
-          ))} 
+          ))}
         </View>
+        <SupplyFooter />
       </ScrollView>
       <Modal
         animationType="fade"

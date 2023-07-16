@@ -2,9 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useCurrentUser } from '../hooks/useCurrentUser';
+import { useEffect } from 'react';
+import { t } from '@onflow/fcl';
+import SupplyFooter from '../components/SupplyFooter';
+import UserInfo from '../components/UserInfo';
 
 const CollectionScreen = ({ navigation }) => {
   const user = useCurrentUser();
+
   const games = [
     {
       id: 1,
@@ -97,42 +102,7 @@ const CollectionScreen = ({ navigation }) => {
   return (
     <>
       <ScrollView contentContainerStyle={styles.container}>
-      <View
-          style={{
-            padding: 25,
-            borderRadius: 10,
-            marginBottom: 25,
-            backgroundColor: "#1C1C1B",
-            shadowColor: "black",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.75,
-            shadowRadius: 10,
-            elevation: 5,
-          }}
-        >
-          <Text style={{ fontSize: 22, marginBottom: 15, fontWeight: "bold", color: "white" }}>
-            Your Account
-          </Text>
-          <View
-            style={{ flexDirection: "row", marginBottom: 3, justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Address</Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user?.address ?? "Loading..."}
-            </Text>
-          </View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>Balance</Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
-            </Text>
-          </View>
-        </View>
+        <UserInfo />
         {games.map((game) => (
           <TouchableOpacity key={game.id} style={styles.gameItem} onPress={game.onPress}>
             <View style={styles.gameIconContainer}>
@@ -146,6 +116,7 @@ const CollectionScreen = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         ))}
+        <SupplyFooter />
       </ScrollView>
     </>
   );

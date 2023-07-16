@@ -13,6 +13,8 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import NoWalletsView from '../components/NoWalletsView';
 import WalletServiceCard from '../components/WalletServiceCard';
 import WalletDiscoveryWrapper from '../components/WalletDiscoveryWrapper';
+const flowArcadeGif = require('./../../assets/game-assets/flow_arcade.gif');
+import SupplyFooter from '../components/SupplyFooter';
 
 const Auth = () => {
   return (
@@ -30,6 +32,7 @@ const Auth = () => {
           fontSize: 32,
           fontWeight: 'bold',
           color: 'white',
+          alignSelf: 'center',
         }}
         adjustsFontSizeToFit={true}
       >
@@ -42,27 +45,35 @@ const Auth = () => {
           fontFamily: 'monospace',
           marginBottom: 10,
           color: '#01EE8B',
+          alignSelf: 'center',
         }}
         adjustsFontSizeToFit={true}
       >
         Flow-Arcade
       </Text>
+      <Image source={flowArcadeGif} style={{
+        width: 180,
+        height: 180,
+        alignSelf: 'center',
+        marginBottom: 30,
+      }} />
       <Text
         style={{
-          fontSize: 16,
-          marginBottom: 10,
+          fontSize: 18,
+          fontWeight: '600',
           lineHeight: 24,
           color: 'white',
+          alignSelf: 'center',
         }}
       >
-        Please choose a wallet to continue
+        &nbsp;Please choose a wallet to continue
       </Text>
 
       <View
         style={{
           backgroundColor: '#1C1C1B',
           borderRadius: 10,
-          marginTop: 20,
+          marginTop: 15,
           shadowColor: 'black',
           shadowOffset: {
             width: 0,
@@ -81,7 +92,7 @@ const Auth = () => {
           Wrapper={WalletDiscoveryWrapper}
         />
       </View>
-
+      <SupplyFooter />
     </ScrollView>
   );
 };

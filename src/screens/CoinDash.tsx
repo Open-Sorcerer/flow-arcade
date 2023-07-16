@@ -8,13 +8,12 @@ import {
   View,
 } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 import mintNFT from "../cadence-integration/mintNFT";
-import getTotalSupply from "../cadence-integration/getTotalSupply";
 import axios from "axios"; // Import axios for making API requests
 import {UNSPLASH_API_KEY} from '@env';
+import UserInfo from "../components/UserInfo";
 
 interface Coin {
   id: number;
@@ -35,9 +34,6 @@ const CoinDash: React.FC = () => {
   const [time, setTime] = useState(30);
   const [gameOver, setGameOver] = useState(false);
   const [scoreImage, setScoreImage] = useState(""); // Store the high score image URI
-
-  // Hook to obtain information about the current user
-  const user = useCurrentUser();
 
   useEffect(() => {
     if (time > 0 && !gameOver) {
@@ -135,22 +131,11 @@ const CoinDash: React.FC = () => {
     });
   };
 
-  const checkSuppy = async () => {
-    let _totalSupply;
-    try {
-      _totalSupply = await fcl.query({
-        cadence: `${getTotalSupply}`,
-      });
-      console.log(_totalSupply);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const searchScoreImage = async () => {
     try {
       // Make a GET request to the Unsplash API to search for high score images
       const response = await axios.get(
-        `https://api.unsplash.com/search/photos?query=${score}&client_id=${UNSPLASH_API_KEY}`
+        `https://api.unsplash.com/search/photos?query=arcade&client_id=${UNSPLASH_API_KEY}`
       );
 
       if (response.data.results.length > 0) {
@@ -282,57 +267,7 @@ const CoinDash: React.FC = () => {
   return (
     <>
       <ScrollView style={styles.scrollView}>
-        <View
-          style={{
-            padding: 25,
-            borderRadius: 10,
-            marginBottom: 10,
-            backgroundColor: "#1C1C1B",
-            shadowColor: "black",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.75,
-            shadowRadius: 10,
-            elevation: 5,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 22,
-              marginBottom: 15,
-              fontWeight: "bold",
-              color: "white",
-            }}
-          >
-            Your Account
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              marginBottom: 3,
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>
-              Address
-            </Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user?.address ?? "Loading..."}
-            </Text>
-          </View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#01EE8B" }}>
-              Balance
-            </Text>
-            <Text style={{ fontSize: 18, color: "white" }}>
-              {user ? `${user.balance / 10 ** 8} FLOW` : "Loading..."}
-            </Text>
-          </View>
-        </View>
+        <UserInfo/>
         {gameOver ? (
           <View style={styles.overlay}>
             <Text style={styles.gameOverText}>Game Over!</Text>

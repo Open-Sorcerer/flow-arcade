@@ -27,13 +27,13 @@ export default function App() {
           >
             {isLoggedIn ? (
               <>
-                <Stack.Screen name="Core" component={Core} />
+                <Stack.Screen name=" " component={Core} />
                 <Stack.Screen name="Collection" component={Collection} />
                 <Stack.Screen name="CoinDash" component={CoinDash} />
                 <Stack.Screen name="DegenCoinFlip" component={DegenCoinFlip} />
               </>
             ) : (
-              <Stack.Screen name="Auth" component={Auth} />
+              <Stack.Screen name=" " component={Auth} />
             )}
           </Stack.Navigator>
         </SafeAreaView>
