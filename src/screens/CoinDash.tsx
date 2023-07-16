@@ -12,7 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as fcl from "@onflow/fcl/dist/fcl-react-native";
 import mintNFT from "../cadence-integration/mintNFT";
 import axios from "axios"; // Import axios for making API requests
-import {UNSPLASH_API_KEY} from '@env';
+import { UNSPLASH_API_KEY } from "@env";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import UserInfo from "../components/UserInfo";
 
 interface Coin {
@@ -28,11 +29,13 @@ const coinImage = require("./../../assets/game-assets/coin.png");
 const initialCoinSpawnInterval = 1000; // Initial interval between coin spawns in milliseconds
 
 const CoinDash: React.FC = () => {
+  const user = useCurrentUser();
   const [coins, setCoins] = useState<Coin[]>([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [time, setTime] = useState(30);
   const [gameOver, setGameOver] = useState(false);
+
   const [scoreImage, setScoreImage] = useState(""); // Store the high score image URI
 
   useEffect(() => {
@@ -160,7 +163,14 @@ const CoinDash: React.FC = () => {
         args: (arg, t) => [
           arg("0x" + user?.address, t.Address),
           arg(`Name of the NFT: DashToken${score}`, t.String),
-          arg(`Description of the NFT: You scored ${score}. ${highScore>score?"Better luck next time!":"You beat the previous high score! Keep Grinding!"}`, t.String),
+          arg(
+            `Description of the NFT: You scored ${score}. ${
+              highScore > score
+                ? "Better luck next time!"
+                : "You beat the previous high score! Keep Grinding!"
+            }`,
+            t.String
+          ),
           arg(scoreImage, t.String), // Pass the high score image URI to the mint NFT function
         ],
         limit: 99,
@@ -267,7 +277,7 @@ const CoinDash: React.FC = () => {
   return (
     <>
       <ScrollView style={styles.scrollView}>
-        <UserInfo/>
+        <UserInfo />
         {gameOver ? (
           <View style={styles.overlay}>
             <Text style={styles.gameOverText}>Game Over!</Text>
