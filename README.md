@@ -9,7 +9,7 @@ Flow-Arcade is a mobile game platform that offers a collection of exciting games
 ## Watch the Demo Video on YouTube
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=lUd6Q3E8l5k" target="_blank">
- <img src="http://img.youtube.com/vi/lUd6Q3E8l5k/mqdefault.jpg" alt="Watch the video" width="450" height="360" border="10" />
+ <img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/cec35cce-adc6-4b97-9599-c9dea0c490b3" alt="Watch the video" width="250" height="400" border="10" />
 </a>
 
 ## Screenshots
