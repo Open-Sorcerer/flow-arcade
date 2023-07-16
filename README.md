@@ -3,8 +3,8 @@
 <h1 align="left">Flow-Arcade</h1>
 </div>
 
-Flow-Arcade is a mobile game platform that offers a collection of exciting games built using React Native on Typescript and Flow blockchain. The platform currently features two games: Coin Dash and Degen Coin Flip.
-<br />
+#### Flow-Arcade is a mobile game platform that offers a collection of exciting games built using React Native on Typescript and Flow blockchain. The platform currently features two games: Coin Dash and Degen Coin Flip.
+
 
 ## Watch the Demo Video on YouTube
 
@@ -17,7 +17,7 @@ Flow-Arcade is a mobile game platform that offers a collection of exciting games
 <img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/6a997d3a-9f95-40a9-b150-b95b9b42ec6f" width="180" height="360"/>
 <img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/91f65b36-5e53-4a96-9acf-7c0b6b386ce5" width="180" height="360"/>
 <img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/9cbe3b31-6d19-443e-9bda-882a50c2257f" width="180" height="360"/>
-<img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/8c441032-9024-4fd1-9464-f785109d06a2" width="180" height="360"/>
+<img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/be859ceb-3ec9-49db-8d42-9a913af41db5" width="180" height="360"/>
 
 ## Installation
 
