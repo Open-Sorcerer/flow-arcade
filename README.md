@@ -6,10 +6,11 @@
 #### Flow-Arcade is a mobile game platform that offers a collection of exciting games built using React Native on Typescript and Flow blockchain. The platform currently features two games: Coin Dash and Degen Coin Flip.
 
 
-## Watch the Demo Video on YouTube
+## Demo Video
 
 <a href="https://youtu.be/lUd6Q3E8l5k" target="_blank">
- <img src="./assets/demo.png" alt="Watch the video" width="250" height="400" border="10" />
+  <img width="220" src="https://img.shields.io/badge/-Watch_on_YouTube-red?style=for-the-badge&logo=youtube&logoColor=white"><br/>
+ <img src="./assets/demo.png" alt="Watch the video" width="220" height="350" border="10" />
 </a>
 
 ## Screenshots
