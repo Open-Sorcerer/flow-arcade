@@ -31,7 +31,7 @@
   },
   "deployments": {
     "emulator": {
-      "emulator-account": ["NFTMinter", "NonFungibleToken"]
+      "emulator-account": ["degenCoinFlip"]
     },
     "testnet": {
       "harsh": ["Minter"]
