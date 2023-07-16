@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text, ScrollView } from 'react-native';
-import { useCurrentUser } from '../hooks/useCurrentUser';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import UserInfo from '../components/UserInfo';
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Text,
+  ScrollView,
+} from "react-native";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import axios from "axios";
+import UserInfo from "../components/UserInfo";
 import ConfettiCannon from "react-native-confetti-cannon";
+import * as fcl from "@onflow/fcl/dist/fcl-react-native";
+import mintNFT from "../cadence-integration/mintNFT";
 
-const coinFlipAnimationGif = require('./../../assets/game-assets/coin_flip_animation.gif');
-const headsImage = require('./../../assets/game-assets/buff_doge.png');
-const tailsImage = require('./../../assets/game-assets/weak_cheems.png');
+const coinFlipAnimationGif = require("./../../assets/game-assets/coin_flip_animation.gif");
+const headsImage = require("./../../assets/game-assets/buff_doge.png");
+const tailsImage = require("./../../assets/game-assets/weak_cheems.png");
 
 const DegenCoinFlipScreen: React.FC = () => {
   const [isFlipping, setIsFlipping] = useState(false);
   const [currentImage, setCurrentImage] = useState(headsImage);
   const [wins, setWins] = useState(0);
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState("");
   const [confetti, setConfetti] = useState(false);
+  const [scoreImage, setScoreImage] = useState("");
   // Hook to obtain information about the current user
   const user = useCurrentUser();
   const handleCoinFlip = (coin: string) => {
     setSelected(coin);
-    const side = Math.random() < 0.5 ? 'heads' : 'tails';
+    const side = Math.random() < 0.5 ? "heads" : "tails";
     if (!isFlipping) {
       setIsFlipping(true);
       setTimeout(() => {
-        setCurrentImage(side === 'heads' ? headsImage : tailsImage);
+        setCurrentImage(side === "heads" ? headsImage : tailsImage);
         setIsFlipping(false);
-        setSelected('');
+        setSelected("");
         if (coin === side) {
           setWins(wins + 1);
           setConfetti(true);
@@ -39,6 +50,47 @@ const DegenCoinFlipScreen: React.FC = () => {
     }
   };
 
+  const searchScoreImage = async () => {
+    try {
+      // Make a GET request to the Unsplash API to search for high score images
+      const response = await axios.get(
+        `https://api.unsplash.com/search/photos?query=arcade&client_id=${UNSPLASH_API_KEY}`
+      );
+
+      if (response.data.results.length > 0) {
+        const images = response.data.results;
+        const randomIndex = Math.floor(Math.random() * images.length);
+        const imageUri = images[randomIndex].urls.regular;
+        setScoreImage(imageUri);
+        console.log("Score image URI:", imageUri);
+      }
+    } catch (error) {
+      console.log("Error searching for high score image:", error);
+    }
+  };
+
+  const handleMintNFT = async () => {
+    await searchScoreImage();
+    try {
+      console.log("Minting NFT");
+      console.log(user?.address);
+
+      const transactionId = await fcl.mutate({
+        cadence: `${mintNFT}`,
+        args: (arg, t) => [
+          arg("0x" + user?.address, t.Address),
+          arg(`DegenCoinFlip Streak: ${wins}`, t.String),
+          arg(`Your streak is ${wins}.`, t.String),
+          arg(scoreImage, t.String), // Pass the high score image URI to the mint NFT function
+        ],
+        limit: 99,
+      });
+      console.log("Transaction sent to the network:", transactionId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const styles = StyleSheet.create({
     scrollView: {
       padding: 20,
@@ -48,13 +100,13 @@ const DegenCoinFlipScreen: React.FC = () => {
     },
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#2D2C35',
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#2D2C35",
     },
     coinContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: "center",
+      alignItems: "center",
       marginBottom: 20,
     },
     coinGif: {
@@ -66,7 +118,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       height: 200,
     },
     buttonContainer: {
-      width: '100%',
+      width: "100%",
       marginTop: 20,
       flex: 1,
       flexDirection: "row",
@@ -84,7 +136,7 @@ const DegenCoinFlipScreen: React.FC = () => {
       justifyContent: "center",
       padding: 10,
       borderRadius: 10,
-      backgroundColor: '#1C1C1B',
+      backgroundColor: "#1C1C1B",
       shadowColor: "black",
       shadowOffset: {
         width: 0,
@@ -96,14 +148,14 @@ const DegenCoinFlipScreen: React.FC = () => {
     },
     buttonText: {
       fontSize: 15,
-      fontWeight: 'bold',
-      color: 'white',
+      fontWeight: "bold",
+      color: "white",
     },
     counterText: {
       fontSize: 25,
-      fontWeight: 'bold',
-      color: 'white',
-      alignSelf: 'center',
+      fontWeight: "bold",
+      color: "white",
+      alignSelf: "center",
     },
   });
 
@@ -125,39 +177,69 @@ const DegenCoinFlipScreen: React.FC = () => {
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: selected === 'heads' ? '#01EE8B' : isFlipping ? 'gray' : '#1C1C1B' }
+                {
+                  backgroundColor:
+                    selected === "heads"
+                      ? "#01EE8B"
+                      : isFlipping
+                      ? "gray"
+                      : "#1C1C1B",
+                },
               ]}
-              onPress={() => handleCoinFlip('heads')}
-              disabled={isFlipping}>
+              onPress={() => handleCoinFlip("heads")}
+              disabled={isFlipping}
+            >
               <Text style={styles.buttonText}>HEADS</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: selected === 'tails' ? '#01EE8B' : isFlipping ? 'gray' : '#1C1C1B' }
+                {
+                  backgroundColor:
+                    selected === "tails"
+                      ? "#01EE8B"
+                      : isFlipping
+                      ? "gray"
+                      : "#1C1C1B",
+                },
               ]}
-              onPress={() => handleCoinFlip('tails')} disabled={isFlipping}>
+              onPress={() => handleCoinFlip("tails")}
+              disabled={isFlipping}
+            >
               <Text style={styles.buttonText}>TAILS</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonContainer}>
-            <Text style={styles.counterText}>Win Streak: &nbsp;
-              <Text style={{ color: wins===0?'red':'#01EE8B', fontSize: 32 }}>{wins}</Text>
+            <Text style={styles.counterText}>
+              Win Streak: &nbsp;
+              <Text
+                style={{ color: wins === 0 ? "red" : "#01EE8B", fontSize: 32 }}
+              >
+                {wins}
+              </Text>
             </Text>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.button, {backgroundColor:!wins&&'gray'}]} disabled={!wins}>
-              <Text style={[styles.buttonText, {fontSize: 18}]}>Mint NFT ⛈️</Text>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: !wins && "gray" }]}
+              disabled={!wins}
+              onPress={handleMintNFT}
+            >
+              <Text style={[styles.buttonText, { fontSize: 18 }]}>
+                Mint this streak ⛈️
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-        {confetti && <ConfettiCannon
-          count={200}
-          origin={{ x: -10, y: 0 }}
-          explosionSpeed={300}
-          fallSpeed={3000}
-          colors={["#ff00ff", "#00ffff", "#ffff00"]}
-        />}
+        {confetti && (
+          <ConfettiCannon
+            count={200}
+            origin={{ x: -10, y: 0 }}
+            explosionSpeed={300}
+            fallSpeed={3000}
+            colors={["#ff00ff", "#00ffff", "#ffff00"]}
+          />
+        )}
       </ScrollView>
     </>
   );
