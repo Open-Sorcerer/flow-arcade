@@ -14,15 +14,10 @@ Flow-Arcade is a mobile game platform that offers a collection of exciting games
 
 ## Screenshots
 
-- **Coin Dash**
-  
-![Dash](https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/9cbe3b31-6d19-443e-9bda-882a50c2257f)
-![CoinDash](https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/8c441032-9024-4fd1-9464-f785109d06a2)
-
-- **Degen Coin Flip**
-  
-![Games Galore](https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/6a997d3a-9f95-40a9-b150-b95b9b42ec6f)
-![DogenCoinFlip](https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/91f65b36-5e53-4a96-9acf-7c0b6b386ce5)
+<img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/6a997d3a-9f95-40a9-b150-b95b9b42ec6f" width="180" height="360"/>
+<img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/91f65b36-5e53-4a96-9acf-7c0b6b386ce5" width="180" height="360"/>
+<img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/9cbe3b31-6d19-443e-9bda-882a50c2257f" width="180" height="360"/>
+<img src="https://github.com/Open-Sorcerer/flow-arcade/assets/63473496/8c441032-9024-4fd1-9464-f785109d06a2" width="180" height="360"/>
 
 ## Installation
 
